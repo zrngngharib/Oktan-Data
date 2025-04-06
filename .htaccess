@@ -1,0 +1,29 @@
+RewriteEngine On
+
+# Disable directory listing to prevent file exposure
+Options -Indexes
+
+# Redirect any 404 error to the custom 404 page
+ErrorDocument 404 /o_data/404.php
+
+# Redirect non-existing files and directories to 404.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* /o_data/404.php [L,R=404]
+
+# Allow access to existing directories
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .* - [L]
+
+RewriteRule ^device_details.php/([a-zA-Z0-9_-]+)$ device_details.php?device_name=$1 [L,QSA]
+
+# O_Data/.htaccess
+
+
+# Set the default character set to UTF-8
+AddDefaultCharset UTF-8
+
+# Enable compression for text files
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
